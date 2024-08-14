@@ -9,16 +9,19 @@
     "tailwind-watch": "tailwindcss -i ./src/app.css -o ./static/styles/global.css --watch"
   },
   "devDependencies": {
-    "@sveltejs/adapter-auto": "^3.2.3",
-    "@sveltejs/adapter-static": "^3.0.3",
-    "@sveltejs/kit": "^2.5.21",
+    "@sveltejs/adapter-auto": "^3.2.4",
+    "@sveltejs/adapter-static": "^3.0.4",
+    "@sveltejs/kit": "^2.5.22",
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
     "@tauri-apps/cli": "^1.6.0",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.41",
     "svelte": "^4.2.18",
-    "tailwindcss": "^3.4.9",
+    "tailwindcss": "^3.4.10",
     "vite": "^5.4.0"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@tauri-apps/api": "^1.6.0"
+  }
 }
