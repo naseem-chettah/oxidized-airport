@@ -20,6 +20,15 @@
           class:selected-tab={tab === activeTab}
           class:active={tab === activeTab}
         >
+          {#if tab === "Airplanes"}
+            <i class="fa-solid fa-plane"></i>
+          {:else if tab === "Airports"}
+            <i class="fa-solid fa-cart-flatbed-suitcase"></i>
+          {:else if tab === "Passengers"}
+            <i class="fa-solid fa-person-walking-luggage"></i>
+          {:else if tab === "Flights"}
+            <i class="fa-solid fa-plane-departure"></i>
+          {/if}
           {tab}
         </div>
       </li>

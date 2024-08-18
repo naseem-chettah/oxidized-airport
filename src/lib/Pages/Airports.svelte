@@ -2,24 +2,16 @@
   import { invoke } from "@tauri-apps/api/tauri";
   import { onMount } from "svelte";
 
-  let cols = [
-    "Airplane ID",
-    "Flight Number",
-    "Departure Airport ID",
-    "Arrival Airport ID",
-    "Departure Time",
-    "Arrival Time",
-    "Flight Status",
-  ];
-  let flights = [];
+  let cols = ["City", "Country", "IATA"];
+  let airports = [];
   let loading = false;
   let error = null;
 
-  async function getFlights() {
+  async function getAirports() {
     loading = true;
     error = null;
     try {
-      flights = JSON.parse(await invoke("fetch_flights_from_db", {}));
+      airports = JSON.parse(await invoke("fetch_airports_from_db", {}));
     } catch (err) {
       error = "Error fetching airplanes: " + err.message;
     } finally {
@@ -28,7 +20,7 @@
   }
 
   onMount(() => {
-    getFlights();
+    getAirports();
   });
 </script>
 
@@ -37,7 +29,7 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <i
-      on:click={getFlights}
+      on:click={getAirports}
       class={loading
         ? "fa-solid fa-arrows-rotate fa-spin"
         : "fa-solid fa-arrows-rotate"}
@@ -60,28 +52,16 @@
         </tr>
       </thead>
       <tbody>
-        {#each flights as flight}
+        {#each airports as airport}
           <tr class="text-gray-700">
             <td class="border-b-2 p-4 dark:border-dark-5"
-              >{flight.airplane_id}</td
+              >{airport.city}</td
             >
             <td class="border-b-2 p-4 dark:border-dark-5"
-              >{flight.flight_number}</td
+              >{airport.country}</td
             >
             <td class="border-b-2 p-4 dark:border-dark-5"
-              >{flight.departure_airport_id}</td
-            >
-            <td class="border-b-2 p-4 dark:border-dark-5"
-              >{flight.arrival_airport_id}</td
-            >
-            <td class="border-b-2 p-4 dark:border-dark-5"
-              >{flight.departure_time}</td
-            >
-            <td class="border-b-2 p-4 dark:border-dark-5"
-              >{flight.arrival_time}</td
-            >
-            <td class="border-b-2 p-4 dark:border-dark-5"
-              >{flight.flight_status}</td
+              >{airport.iata}</td
             >
           </tr>
         {/each}
