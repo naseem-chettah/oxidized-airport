@@ -22,6 +22,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
     "@tauri-apps/api": "^1.6.0"
   }
 }
