@@ -43,6 +43,17 @@ pub struct Flight {
 }
 
 #[derive(Debug, Serialize)]
+pub struct FlightDetails {
+    pub airplane_model: String,
+    pub flight_number: String,
+    pub departure_iata: String,
+    pub arrival_iata: String,
+    pub departure_time: DateTime<Utc>,
+    pub arrival_time: DateTime<Utc>,
+    pub flight_status: String,
+}
+
+#[derive(Debug, Serialize)]
 pub struct CrewMember {
     pub first_name: String,
     pub last_name: String,
@@ -260,19 +271,19 @@ pub async fn fetch_passengers(pool: &sqlx::PgPool) -> Result<Vec<Passenger>, Box
     Ok(passengers)
 }
 
-pub async fn fetch_flights(pool: &sqlx::PgPool) -> Result<Vec<Flight>, Box<dyn Error>> {
-    let q = "SELECT airplane_id, flight_number, departure_airport_id, arrival_airport_id, departure_time, arrival_time, flight_status FROM flight";
+pub async fn fetch_flights(pool: &sqlx::PgPool) -> Result<Vec<FlightDetails>, Box<dyn Error>> {
+    let q = "SELECT a.model AS airplane_model, f.flight_number, dep.iata AS departure_iata, arr.iata AS arrival_iata, departure_time, arrival_time, flight_status FROM flight f INNER JOIN airplane a ON f.airplane_id = a.airplane_id INNER JOIN airport dep ON f.departure_airport_id = dep.airport_id INNER JOIN airport arr ON f.arrival_airport_id = arr.airport_id";
     let query = sqlx::query(q);
 
     let rows = query.fetch_all(pool).await?;
 
     let flights = rows
         .iter()
-        .map(|row| Flight {
-            airplane_id: row.get("airplane_id"),
+        .map(|row| FlightDetails {
+            airplane_model: row.get("airplane_model"),
             flight_number: row.get("flight_number"),
-            departure_airport_id: row.get("departure_airport_id"),
-            arrival_airport_id: row.get("arrival_airport_id"),
+            departure_iata: row.get("departure_iata"),
+            arrival_iata: row.get("arrival_iata"),
             departure_time: row.get("departure_time"),
             arrival_time: row.get("arrival_time"),
             flight_status: row.get("flight_status"),
@@ -300,7 +311,9 @@ pub async fn fetch_crewmembers(pool: &sqlx::PgPool) -> Result<Vec<CrewMember>, B
     Ok(crewmembers)
 }
 
-pub async fn fetch_assignments(pool: &sqlx::PgPool) -> Result<Vec<FlightCrewAssignment>, Box<dyn Error>> {
+pub async fn fetch_assignments(
+    pool: &sqlx::PgPool,
+) -> Result<Vec<FlightCrewAssignment>, Box<dyn Error>> {
     let q = "SELECT flight_id, crew_member_id FROM flightcrewassignment";
     let query = sqlx::query(q);
 
@@ -316,4 +329,3 @@ pub async fn fetch_assignments(pool: &sqlx::PgPool) -> Result<Vec<FlightCrewAssi
 
     Ok(assignments)
 }
-

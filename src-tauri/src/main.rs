@@ -2,7 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use app::{
-    fetch_airplanes, fetch_airports, fetch_flights, fetch_passengers, Airplane, Airport, Flight,
+    fetch_airplanes, fetch_airports, fetch_flights, fetch_passengers, Airplane, Airport, FlightDetails,
     Passenger,
 };
 
@@ -69,7 +69,7 @@ async fn fetch_flights_from_db() -> Result<String, String> {
         .await
         .map_err(|e| e.to_string())?;
 
-    let flights: Vec<Flight> = fetch_flights(&pool).await.map_err(|e| e.to_string())?;
+    let flights: Vec<FlightDetails> = fetch_flights(&pool).await.map_err(|e| e.to_string())?;
     let json_string = serde_json::to_string(&flights).map_err(|e| e.to_string())?;
     Ok(json_string)
 }

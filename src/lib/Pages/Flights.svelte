@@ -3,10 +3,10 @@
   import { onMount } from "svelte";
 
   let cols = [
-    "Airplane ID",
+    "Airplane",
     "Flight Number",
-    "Departure Airport ID",
-    "Arrival Airport ID",
+    "Departure Airport",
+    "Arrival Airport",
     "Departure Time",
     "Arrival Time",
     "Flight Status",
@@ -25,6 +25,18 @@
     } finally {
       loading = false;
     }
+  }
+
+  function formatDateTime(dateTimeString) {
+    const dateTime = new Date(dateTimeString);
+    return new Intl.DateTimeFormat("en-US", {
+      year: "2-digit",
+      month: "long",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    }).format(dateTime);
   }
 
   onMount(() => {
@@ -63,22 +75,22 @@
         {#each flights as flight}
           <tr class="text-gray-700">
             <td class="border-b-2 p-4 dark:border-dark-5"
-              >{flight.airplane_id}</td
+              >{flight.airplane_model}</td
             >
             <td class="border-b-2 p-4 dark:border-dark-5"
               >{flight.flight_number}</td
             >
             <td class="border-b-2 p-4 dark:border-dark-5"
-              >{flight.departure_airport_id}</td
+              >{flight.departure_iata}</td
             >
             <td class="border-b-2 p-4 dark:border-dark-5"
-              >{flight.arrival_airport_id}</td
+              >{flight.arrival_iata}</td
             >
             <td class="border-b-2 p-4 dark:border-dark-5"
-              >{flight.departure_time}</td
+              >{formatDateTime(flight.departure_time)}</td
             >
             <td class="border-b-2 p-4 dark:border-dark-5"
-              >{flight.arrival_time}</td
+              >{formatDateTime(flight.arrival_time)}</td
             >
             <td class="border-b-2 p-4 dark:border-dark-5"
               >{flight.flight_status}</td
