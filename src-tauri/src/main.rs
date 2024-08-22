@@ -2,8 +2,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use app::{
-    fetch_airplanes, fetch_airports, fetch_flights, fetch_passengers, Airplane, Airport, FlightDetails,
-    Passenger,
+    create_airplane, fetch_airplanes, fetch_airports, fetch_flights, fetch_passengers, Airplane,
+    Airport, FlightDetails, Passenger,
 };
 
 #[tauri::command]
@@ -74,13 +74,42 @@ async fn fetch_flights_from_db() -> Result<String, String> {
     Ok(json_string)
 }
 
+#[tauri::command]
+async fn insert_airplane_to_db(
+    model: String,
+    manufacturer: String,
+    capacity: i32,
+) -> Result<(), String> {
+    let url = "postgres://postgres:admin@192.168.122.54:5432/oxidized_airport";
+    let pool = sqlx::postgres::PgPool::connect(url)
+        .await
+        .map_err(|e| e.to_string())?;
+
+    sqlx::migrate!("./migrations")
+        .run(&pool)
+        .await
+        .map_err(|e| e.to_string())?;
+
+    let airplane = Airplane {
+        model: String::from(model),
+        manufacturer: String::from(manufacturer),
+        capacity
+    };
+
+    create_airplane(&airplane, &pool)
+        .await
+        .map_err(|e| e.to_string())?;
+    Ok(())
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             fetch_airplanes_from_db,
             fetch_airports_from_db,
             fetch_passengers_from_db,
-            fetch_flights_from_db
+            fetch_flights_from_db,
+            insert_airplane_to_db
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -16,7 +16,7 @@
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div
           on:click={() => dispatcher("tabChange", tab)}
-          class="tab"
+          class="tab cursor-pointer"
           class:selected-tab={tab === activeTab}
           class:active={tab === activeTab}
         >

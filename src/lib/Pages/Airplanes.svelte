@@ -2,6 +2,9 @@
   import { invoke } from "@tauri-apps/api/tauri";
   import { onMount } from "svelte";
 
+  import NewAirplaneForm from "../Forms/NewAirplaneForm.svelte";
+  let showForm = false;
+
   let cols = ["Model", "Manufacturer", "Capacity"];
   let airplanes = [];
   let loading = false;
@@ -25,16 +28,39 @@
 </script>
 
 <div>
-  <div class="flex justify-center">
+  {#if showForm}
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <div
+      class="w-full h-full fixed inset-0 bg-black bg-opacity-15 backdrop-blur"
+      on:click|self={() => {
+        showForm = !showForm;
+      }}
+    >
+      <NewAirplaneForm />
+    </div>
+  {/if}
+
+  <div class="flex justify-center cursor-pointer">
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <i
+      on:click={() => {
+        showForm = !showForm;
+      }}
+      class="fa-solid fa-plus hover:fa-bounce px-1 hover:text-purple-600"
+    ></i>
+
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <i
       on:click={getAirplanes}
       class={loading
-        ? "fa-solid fa-arrows-rotate fa-spin"
-        : "fa-solid fa-arrows-rotate"}
+        ? "fa-solid fa-arrows-rotate fa-spin px-1"
+        : "fa-solid fa-arrows-rotate px-1 hover:text-purple-600"}
     ></i>
   </div>
+
   {#if error}
     <p class="text-red-600">{error}</p>
   {/if}
