@@ -41,14 +41,14 @@
     </div>
   {/if}
 
-  <div class="flex justify-center cursor-pointer">
+  <div class="flex justify-center">
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <i
       on:click={() => {
         showForm = !showForm;
       }}
-      class="fa-solid fa-plus hover:fa-bounce px-1 hover:text-purple-600"
+      class="fa-solid fa-plus hover:fa-bounce px-1 hover:text-purple-600 cursor-pointer"
     ></i>
 
     <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -56,8 +56,8 @@
     <i
       on:click={getAirplanes}
       class={loading
-        ? "fa-solid fa-arrows-rotate fa-spin px-1"
-        : "fa-solid fa-arrows-rotate px-1 hover:text-purple-600"}
+        ? "fa-solid fa-arrows-rotate fa-spin px-1 text-purple-600"
+        : "fa-solid fa-arrows-rotate px-1 hover:text-purple-600 cursor-pointer"}
     ></i>
   </div>
 

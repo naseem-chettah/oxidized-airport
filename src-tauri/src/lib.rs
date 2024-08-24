@@ -1,6 +1,6 @@
 use chrono::{DateTime, Utc};
 use serde::Serialize;
-use sqlx::Row;
+use sqlx::{PgPool, Row};
 use std::error::Error;
 
 #[derive(Debug, Serialize)]
@@ -73,6 +73,19 @@ pub struct Booking {
     pub seat_id: i32,
     pub booking_date: DateTime<Utc>,
     pub booking_status: String,
+}
+
+pub async fn connect_to_db(url: String) -> Result<PgPool, String> {
+    let pool = sqlx::postgres::PgPool::connect(&url)
+        .await
+        .map_err(|e| e.to_string())?;
+
+    sqlx::migrate!("./migrations")
+        .run(&pool)
+        .await
+        .map_err(|e| e.to_string())?;
+
+    Ok(pool)
 }
 
 // CREATE
