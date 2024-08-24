@@ -21,6 +21,7 @@ tauri = { version = "1.7.0", features = [] }
 chrono = { version = "0.4.38", features = ["serde"] }
 sqlx = { version = "0.8.0", features = ["postgres", "runtime-tokio-rustls", "chrono"] }
 tokio = { version = "1.39.2", features = ["full"] }
+envconfig = "0.10.0"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem and the built-in dev server is disabled.

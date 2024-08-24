@@ -1,7 +1,14 @@
 use chrono::{DateTime, Utc};
+use envconfig::Envconfig;
 use serde::Serialize;
 use sqlx::{PgPool, Row};
 use std::error::Error;
+
+#[derive(Envconfig)]
+struct Config {
+    #[envconfig(from = "OADBCS")]
+    url: String,
+}
 
 #[derive(Debug, Serialize)]
 pub struct Airplane {
@@ -75,8 +82,10 @@ pub struct Booking {
     pub booking_status: String,
 }
 
-pub async fn connect_to_db(url: String) -> Result<PgPool, String> {
-    let pool = sqlx::postgres::PgPool::connect(&url)
+pub async fn connect_to_db() -> Result<PgPool, String> {
+    let config = Config::init_from_env().expect("Failed to load configuration");
+
+    let pool = sqlx::postgres::PgPool::connect(&config.url)
         .await
         .map_err(|e| e.to_string())?;
 
