@@ -82,17 +82,12 @@ pub struct Booking {
     pub booking_status: String,
 }
 
-pub async fn connect_to_db() -> Result<PgPool, String> {
+pub async fn connect_to_db() -> Result<PgPool, Box<dyn Error>> {
     let config = Config::init_from_env().expect("Failed to load configuration");
 
-    let pool = sqlx::postgres::PgPool::connect(&config.url)
-        .await
-        .map_err(|e| e.to_string())?;
+    let pool = sqlx::postgres::PgPool::connect(&config.url).await?;
 
-    sqlx::migrate!("./migrations")
-        .run(&pool)
-        .await
-        .map_err(|e| e.to_string())?;
+    sqlx::migrate!("./migrations").run(&pool).await?;
 
     Ok(pool)
 }
