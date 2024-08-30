@@ -18,6 +18,22 @@ pub struct Airplane {
 }
 
 #[derive(Debug, Serialize)]
+pub struct AirplaneDetails {
+    pub id: i32,
+    pub model: String,
+    pub manufacturer: String,
+    pub capacity: i32,
+}
+
+#[derive(Debug, Serialize)]
+pub struct AirportDetails {
+    pub id: i32,
+    pub city: String,
+    pub country: String,
+    pub iata: String,
+}
+
+#[derive(Debug, Serialize)]
 pub struct Airport {
     pub city: String,
     pub country: String,
@@ -216,15 +232,16 @@ pub async fn create_booking(booking: &Booking, pool: &sqlx::PgPool) -> Result<()
 }
 
 // READ
-pub async fn fetch_airplanes(pool: &sqlx::PgPool) -> Result<Vec<Airplane>, Box<dyn Error>> {
-    let q = "SELECT model, manufacturer, capacity FROM airplane";
+pub async fn fetch_airplanes(pool: &sqlx::PgPool) -> Result<Vec<AirplaneDetails>, Box<dyn Error>> {
+    let q = "SELECT airplane_id, model, manufacturer, capacity FROM airplane";
     let query = sqlx::query(q);
 
     let rows = query.fetch_all(pool).await?;
 
     let airplanes = rows
         .iter()
-        .map(|row| Airplane {
+        .map(|row| AirplaneDetails {
+            id: row.get("airplane_id"),
             model: row.get("model"),
             manufacturer: row.get("manufacturer"),
             capacity: row.get("capacity"),
@@ -234,15 +251,16 @@ pub async fn fetch_airplanes(pool: &sqlx::PgPool) -> Result<Vec<Airplane>, Box<d
     Ok(airplanes)
 }
 
-pub async fn fetch_airports(pool: &sqlx::PgPool) -> Result<Vec<Airport>, Box<dyn Error>> {
-    let q = "SELECT city, country, iata FROM airport";
+pub async fn fetch_airports(pool: &sqlx::PgPool) -> Result<Vec<AirportDetails>, Box<dyn Error>> {
+    let q = "SELECT airport_id, city, country, iata FROM airport";
     let query = sqlx::query(q);
 
     let rows = query.fetch_all(pool).await?;
 
     let airport = rows
         .iter()
-        .map(|row| Airport {
+        .map(|row| AirportDetails {
+            id: row.get("airport_id"),
             city: row.get("city"),
             country: row.get("country"),
             iata: row.get("iata"),

@@ -13,7 +13,7 @@
     try {
       airports = JSON.parse(await invoke("fetch_airports_from_db", {}));
     } catch (err) {
-      error = "Error fetching airplanes: " + err.message;
+      error = "Error fetching airports: " + err.message;
     } finally {
       loading = false;
     }

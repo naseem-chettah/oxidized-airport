@@ -5,10 +5,10 @@
   let loading = false;
   let error = null;
 
-  let airplane;
+  let airplaneId;
   let flightNumber;
-  let departureAirport;
-  let arrivalAirport;
+  let departureAirportId;
+  let arrivalAirportId;
   let departureTime;
   let arrivalTime;
   let flightStatus;
@@ -35,7 +35,7 @@
     try {
       airports = JSON.parse(await invoke("fetch_airports_from_db", {}));
     } catch (err) {
-      error = "Error fetching airplanes: " + err.message;
+      error = "Error fetching airports: " + err.message;
     } finally {
       loading = false;
     }
@@ -45,13 +45,16 @@
     loading = true;
     error = null;
     try {
+      const formattedDepartureTime = new Date(departureTime).toISOString();
+      const formattedArrivalTime = new Date(arrivalTime).toISOString();
+
       await invoke("insert_flight_to_db", {
-        airplane,
+        airplaneId,
         flightNumber,
-        departureAirport,
-        arrivalAirport,
-        departureTime,
-        arrivalTime,
+        departureAirportId,
+        arrivalAirportId,
+        departureTime: formattedDepartureTime,
+        arrivalTime: formattedArrivalTime,
         flightStatus,
       });
     } catch (err) {
@@ -99,13 +102,13 @@
             <select
               type="text"
               class="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-              bind:value={airplane}
+              bind:value={airplaneId}
             >
               <option value="" disabled selected hidden
                 >Select an airplane</option
               >
               {#each airplanes as ap}
-                <option value={ap.model}>{ap.model}</option>
+                <option value={ap.id}>{ap.model}</option>
               {/each}
             </select>
           </div>
@@ -116,14 +119,14 @@
               <select
                 type="text"
                 class="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                bind:value={departureAirport}
+                bind:value={departureAirportId}
               >
                 <option value="" disabled selected hidden
                   >Departure airport</option
                 >
                 {#each airports as ap}
-                  {#if ap.iata != arrivalAirport}
-                    <option value={ap.iata}>{ap.iata}</option>
+                  {#if ap.id != arrivalAirportId}
+                    <option value={ap.id}>{ap.iata}</option>
                   {/if}
                 {/each}
               </select>
@@ -134,14 +137,14 @@
               <select
                 type="text"
                 class="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                bind:value={arrivalAirport}
+                bind:value={arrivalAirportId}
               >
                 <option value="" disabled selected hidden
                   >Arrival airport</option
                 >
                 {#each airports as ap}
-                  {#if ap.iata != departureAirport}
-                    <option value={ap.iata}>{ap.iata}</option>
+                  {#if ap.id != departureAirportId}
+                    <option value={ap.id}>{ap.iata}</option>
                   {/if}
                 {/each}
               </select>
