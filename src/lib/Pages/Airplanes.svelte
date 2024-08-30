@@ -2,7 +2,7 @@
   import { invoke } from "@tauri-apps/api/tauri";
   import { onMount } from "svelte";
 
-  import NewAirplaneForm from "../Forms/NewAirplaneForm.svelte";
+  import NewAirplaneForm from "../Forms/New/NewAirplaneForm.svelte";
   let showForm = false;
 
   let cols = ["Model", "Manufacturer", "Capacity"];

@@ -2,7 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use app::{
-    connect_to_db, create_airplane, create_flight, create_passenger, fetch_airplanes, fetch_airports, fetch_flights, fetch_passengers, Airplane, AirplaneDetails, AirportDetails, Flight, FlightDetails, Passenger
+    connect_to_db, create_airplane, create_flight, create_passenger, delete_flight, fetch_airplanes, fetch_airports, fetch_flights, fetch_passengers, Airplane, AirplaneDetails, AirportDetails, Flight, FlightDetails, Passenger
 };
 use chrono::{DateTime, Utc};
 
@@ -111,6 +111,14 @@ async fn insert_flight_to_db(
     Ok(())
 }
 
+#[tauri::command]
+async fn delete_flight_from_db(flight_id: i32) -> Result<(), String> {
+    let pool = connect_to_db().await.map_err(|e| e.to_string())?;
+
+    delete_flight(flight_id, &pool).await.map_err(|e| e.to_string())?;
+    Ok(())
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -120,7 +128,8 @@ fn main() {
             fetch_flights_from_db,
             insert_airplane_to_db,
             insert_passenger_to_db,
-            insert_flight_to_db
+            insert_flight_to_db,
+            delete_flight_from_db
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

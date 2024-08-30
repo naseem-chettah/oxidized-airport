@@ -2,8 +2,11 @@
   import { invoke } from "@tauri-apps/api/tauri";
   import { onMount } from "svelte";
 
-  import NewFlightForm from "../Forms/NewFlightForm.svelte";
-  let showForm = false;
+  import NewFlightForm from "../Forms/New/NewFlightForm.svelte";
+  let showAddForm = false;
+
+  import DelFlightForm from "../Forms/Delete/DelFlightForm.svelte";
+  let showDelForm = false;
 
   let cols = [
     "Airplane",
@@ -24,7 +27,7 @@
     try {
       flights = JSON.parse(await invoke("fetch_flights_from_db", {}));
     } catch (err) {
-      error = "Error fetching airplanes: " + err.message;
+      error = "Error fetching flights: " + err.message;
     } finally {
       loading = false;
     }
@@ -48,16 +51,27 @@
 </script>
 
 <div>
-  {#if showForm}
+  {#if showAddForm}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div
       class="w-full h-full fixed inset-0 bg-black bg-opacity-15 backdrop-blur"
       on:click|self={() => {
-        showForm = !showForm;
+        showAddForm = !showAddForm;
       }}
     >
       <NewFlightForm />
+    </div>
+  {:else if showDelForm}
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <div
+      class="w-full h-full fixed inset-0 bg-black bg-opacity-15 backdrop-blur"
+      on:click|self={() => {
+        showDelForm = !showDelForm;
+      }}
+    >
+      <DelFlightForm />
     </div>
   {/if}
 
@@ -66,9 +80,18 @@
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <i
       on:click={() => {
-        showForm = !showForm;
+        showAddForm = !showAddForm;
       }}
-      class="fa-solid fa-plus hover:fa-bounce px-1 hover:text-purple-600 cursor-pointer"
+      class="fa-solid fa-plus px-1 hover:text-purple-600 cursor-pointer"
+    ></i>
+
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <i
+      on:click={() => {
+        showDelForm = !showDelForm;
+      }}
+      class="fa-solid fa-trash-can px-1 hover:text-red-700 cursor-pointer"
     ></i>
 
     <!-- svelte-ignore a11y-click-events-have-key-events -->

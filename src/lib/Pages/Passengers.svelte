@@ -2,7 +2,7 @@
   import { invoke } from "@tauri-apps/api/tauri";
   import { onMount } from "svelte";
 
-  import NewPassengerForm from "../Forms/NewPassengerForm.svelte";
+  import NewPassengerForm from "../Forms/New/NewPassengerForm.svelte";
   let showForm = false;
 
   let cols = ["First Name", "Last Name", "Passport Number"];

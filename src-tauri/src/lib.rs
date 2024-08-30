@@ -67,6 +67,7 @@ pub struct Flight {
 
 #[derive(Debug, Serialize)]
 pub struct FlightDetails {
+    pub flight_id: i32,
     pub airplane_model: String,
     pub flight_number: String,
     pub departure_iata: String,
@@ -307,7 +308,7 @@ pub async fn fetch_passengers(pool: &sqlx::PgPool) -> Result<Vec<Passenger>, Box
 }
 
 pub async fn fetch_flights(pool: &sqlx::PgPool) -> Result<Vec<FlightDetails>, Box<dyn Error>> {
-    let q = "SELECT a.model AS airplane_model, f.flight_number, dep.iata AS departure_iata, arr.iata AS arrival_iata, departure_time, arrival_time, flight_status FROM flight f INNER JOIN airplane a ON f.airplane_id = a.airplane_id INNER JOIN airport dep ON f.departure_airport_id = dep.airport_id INNER JOIN airport arr ON f.arrival_airport_id = arr.airport_id";
+    let q = "SELECT flight_id, a.model AS airplane_model, f.flight_number, dep.iata AS departure_iata, arr.iata AS arrival_iata, departure_time, arrival_time, flight_status FROM flight f INNER JOIN airplane a ON f.airplane_id = a.airplane_id INNER JOIN airport dep ON f.departure_airport_id = dep.airport_id INNER JOIN airport arr ON f.arrival_airport_id = arr.airport_id";
     let query = sqlx::query(q);
 
     let rows = query.fetch_all(pool).await?;
@@ -315,6 +316,7 @@ pub async fn fetch_flights(pool: &sqlx::PgPool) -> Result<Vec<FlightDetails>, Bo
     let flights = rows
         .iter()
         .map(|row| FlightDetails {
+            flight_id: row.get("flight_id"),
             airplane_model: row.get("airplane_model"),
             flight_number: row.get("flight_number"),
             departure_iata: row.get("departure_iata"),
@@ -363,4 +365,16 @@ pub async fn fetch_assignments(
         .collect();
 
     Ok(assignments)
+}
+
+// Delete
+pub async fn delete_flight(flight_id: i32, pool: &sqlx::PgPool) -> Result<(), Box<dyn Error>> {
+    let query = "DELETE FROM Flight WHERE flight_id = $1";
+
+    sqlx::query(query)
+        .bind(flight_id)
+        .execute(pool)
+        .await?;
+
+    Ok(())
 }
