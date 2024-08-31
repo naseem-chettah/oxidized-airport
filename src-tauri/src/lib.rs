@@ -8,7 +8,6 @@ use serde::Serialize;
 use sqlx::{PgPool, Row};
 use std::error::Error;
 
-
 /*                */
 /*    STRUCTS     */
 /*                */
@@ -108,7 +107,6 @@ pub struct Booking {
     pub booking_status: String,
 }
 
-
 /*                */
 /*      CONN      */
 /*                */
@@ -122,7 +120,6 @@ pub async fn connect_to_db() -> Result<PgPool, Box<dyn Error>> {
 
     Ok(pool)
 }
-
 
 /*                */
 /*     CREATE     */
@@ -249,7 +246,6 @@ pub async fn create_booking(booking: &Booking, pool: &sqlx::PgPool) -> Result<()
 
     Ok(())
 }
-
 
 /*                */
 /*      READ      */
@@ -388,7 +384,6 @@ pub async fn fetch_assignments(
 
     Ok(assignments)
 }
-
 
 /*                */
 /*     DELETE     */

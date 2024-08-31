@@ -6,12 +6,21 @@
 /*                */
 
 use app::{
-    connect_to_db, create_airplane, create_flight, create_passenger, delete_flight,
-    fetch_airplanes, fetch_airports, fetch_flights, fetch_passengers, Airplane, AirplaneDetails,
-    AirportDetails, Flight, FlightDetails, Passenger,
+    connect_to_db, create_airplane, create_flight, create_passenger,
+    delete_flight, fetch_airplanes, fetch_airports, fetch_flights, fetch_passengers, Airplane,
+    AirplaneDetails, AirportDetails, Flight, FlightDetails, Passenger,
 };
 use chrono::{DateTime, Utc};
 
+/*                */
+/*   CONN CHECK   */
+/*                */
+
+#[tauri::command]
+async fn check_connection_to_db() -> Result<bool, String> {
+    let connection_error = connect_to_db().await.is_err();
+    Ok(connection_error)
+}
 
 /*                */
 /*      READ      */
@@ -53,7 +62,6 @@ async fn fetch_flights_from_db() -> Result<String, String> {
     let json_string = serde_json::to_string(&flights).map_err(|e| e.to_string())?;
     Ok(json_string)
 }
-
 
 /*                */
 /*     CREATE     */
@@ -131,7 +139,6 @@ async fn insert_flight_to_db(
     Ok(())
 }
 
-
 /*                */
 /*     DELETE     */
 /*                */
@@ -146,7 +153,6 @@ async fn delete_flight_from_db(flight_id: i32) -> Result<(), String> {
     Ok(())
 }
 
-
 /*                */
 /*      MAIN      */
 /*                */
@@ -154,6 +160,7 @@ async fn delete_flight_from_db(flight_id: i32) -> Result<(), String> {
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
+            check_connection_to_db,
             fetch_airplanes_from_db,
             fetch_airports_from_db,
             fetch_passengers_from_db,
