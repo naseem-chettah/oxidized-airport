@@ -15,12 +15,12 @@ rust-version = "1.60"
 tauri-build = { version = "1.5.3", features = [] }
 
 [dependencies]
-serde_json = "1.0"
-serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.7.0", features = [] }
+serde_json = "1.0.127"
+serde = { version = "1.0.209", features = ["derive"] }
+tauri = { version = "1.7.2", features = [] }
 chrono = { version = "0.4.38", features = ["serde"] }
-sqlx = { version = "0.8.0", features = ["postgres", "runtime-tokio-rustls", "chrono"] }
-tokio = { version = "1.39.2", features = ["full"] }
+sqlx = { version = "0.8.1", features = ["postgres", "runtime-tokio-rustls", "chrono"] }
+tokio = { version = "1.40.0", features = ["full"] }
 envconfig = "0.10.0"
 
 [features]
