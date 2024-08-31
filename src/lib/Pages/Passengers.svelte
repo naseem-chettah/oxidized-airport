@@ -16,7 +16,7 @@
     try {
       passengers = JSON.parse(await invoke("fetch_passengers_from_db", {}));
     } catch (err) {
-      error = "Error fetching airplanes: " + err.message;
+      error = "Error fetching passengers: " + err.message;
     } finally {
       loading = false;
     }

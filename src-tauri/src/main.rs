@@ -2,7 +2,9 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use app::{
-    connect_to_db, create_airplane, create_flight, create_passenger, delete_flight, fetch_airplanes, fetch_airports, fetch_flights, fetch_passengers, Airplane, AirplaneDetails, AirportDetails, Flight, FlightDetails, Passenger
+    connect_to_db, create_airplane, create_flight, create_passenger, delete_flight,
+    fetch_airplanes, fetch_airports, fetch_flights, fetch_passengers, Airplane, AirplaneDetails,
+    AirportDetails, Flight, FlightDetails, Passenger,
 };
 use chrono::{DateTime, Utc};
 
@@ -52,8 +54,8 @@ async fn insert_airplane_to_db(
     let pool = connect_to_db().await.map_err(|e| e.to_string())?;
 
     let airplane = Airplane {
-        model: String::from(model),
-        manufacturer: String::from(manufacturer),
+        model,
+        manufacturer,
         capacity,
     };
 
@@ -72,9 +74,9 @@ async fn insert_passenger_to_db(
     let pool = connect_to_db().await.map_err(|e| e.to_string())?;
 
     let passenger = Passenger {
-        first_name: String::from(first_name),
-        last_name: String::from(last_name),
-        passport_number: String::from(passport_number),
+        first_name,
+        last_name,
+        passport_number,
     };
 
     create_passenger(&passenger, &pool)
@@ -97,11 +99,15 @@ async fn insert_flight_to_db(
 
     let flight = Flight {
         airplane_id,
-        flight_number: String::from(flight_number),
+        flight_number,
         departure_airport_id,
         arrival_airport_id,
-        departure_time: departure_time.parse::<DateTime<Utc>>().map_err(|e| e.to_string())?,
-        arrival_time: arrival_time.parse::<DateTime<Utc>>().map_err(|e| e.to_string())?,
+        departure_time: departure_time
+            .parse::<DateTime<Utc>>()
+            .map_err(|e| e.to_string())?,
+        arrival_time: arrival_time
+            .parse::<DateTime<Utc>>()
+            .map_err(|e| e.to_string())?,
         flight_status,
     };
 
@@ -115,7 +121,9 @@ async fn insert_flight_to_db(
 async fn delete_flight_from_db(flight_id: i32) -> Result<(), String> {
     let pool = connect_to_db().await.map_err(|e| e.to_string())?;
 
-    delete_flight(flight_id, &pool).await.map_err(|e| e.to_string())?;
+    delete_flight(flight_id, &pool)
+        .await
+        .map_err(|e| e.to_string())?;
     Ok(())
 }
 

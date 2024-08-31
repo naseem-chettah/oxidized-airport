@@ -119,7 +119,7 @@ pub async fn create_airplane(
     sqlx::query(query)
         .bind(&airplane.model)
         .bind(&airplane.manufacturer)
-        .bind(&airplane.capacity)
+        .bind(airplane.capacity)
         .execute(pool)
         .await?;
 
@@ -143,7 +143,7 @@ pub async fn create_seat(seat: &Seat, pool: &sqlx::PgPool) -> Result<(), Box<dyn
     let query = "INSERT INTO Seat (airplane_id, seat_number, class) VALUES ($1, $2, $3)";
 
     sqlx::query(query)
-        .bind(&seat.airplane_id)
+        .bind(seat.airplane_id)
         .bind(&seat.seat_number)
         .bind(&seat.class)
         .execute(pool)
@@ -173,12 +173,12 @@ pub async fn create_flight(flight: &Flight, pool: &sqlx::PgPool) -> Result<(), B
     let query = "INSERT INTO Flight (airplane_id, flight_number, departure_airport_id, arrival_airport_id, departure_time, arrival_time, flight_status) VALUES ($1, $2, $3, $4, $5, $6, $7)";
 
     sqlx::query(query)
-        .bind(&flight.airplane_id)
+        .bind(flight.airplane_id)
         .bind(&flight.flight_number)
-        .bind(&flight.departure_airport_id)
-        .bind(&flight.arrival_airport_id)
-        .bind(&flight.departure_time)
-        .bind(&flight.arrival_time)
+        .bind(flight.departure_airport_id)
+        .bind(flight.arrival_airport_id)
+        .bind(flight.departure_time)
+        .bind(flight.arrival_time)
         .bind(&flight.flight_status)
         .execute(pool)
         .await?;
@@ -209,8 +209,8 @@ pub async fn create_assignment(
     let query = "INSERT INTO FlightCrewAssignment (flight_id, crew_member_id) VALUES ($1, $2)";
 
     sqlx::query(query)
-        .bind(&assignment.flight_id)
-        .bind(&assignment.crew_member_id)
+        .bind(assignment.flight_id)
+        .bind(assignment.crew_member_id)
         .execute(pool)
         .await?;
 
@@ -221,10 +221,10 @@ pub async fn create_booking(booking: &Booking, pool: &sqlx::PgPool) -> Result<()
     let query = "INSERT INTO Booking (flight_id, passenger_id, seat_id, booking_date, booking_status) VALUES ($1, $2, $3, $4, $5)";
 
     sqlx::query(query)
-        .bind(&booking.flight_id)
-        .bind(&booking.passenger_id)
-        .bind(&booking.seat_id)
-        .bind(&booking.booking_date)
+        .bind(booking.flight_id)
+        .bind(booking.passenger_id)
+        .bind(booking.seat_id)
+        .bind(booking.booking_date)
         .bind(&booking.booking_status)
         .execute(pool)
         .await?;
@@ -371,10 +371,7 @@ pub async fn fetch_assignments(
 pub async fn delete_flight(flight_id: i32, pool: &sqlx::PgPool) -> Result<(), Box<dyn Error>> {
     let query = "DELETE FROM Flight WHERE flight_id = $1";
 
-    sqlx::query(query)
-        .bind(flight_id)
-        .execute(pool)
-        .await?;
+    sqlx::query(query).bind(flight_id).execute(pool).await?;
 
     Ok(())
 }
