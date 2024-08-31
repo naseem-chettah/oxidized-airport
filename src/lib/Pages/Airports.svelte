@@ -31,8 +31,8 @@
     <i
       on:click={getAirports}
       class={loading
-        ? "fa-solid fa-arrows-rotate fa-spin"
-        : "fa-solid fa-arrows-rotate"}
+        ? "fa-solid fa-arrows-rotate fa-spin px-1 text-purple-600"
+        : "fa-solid fa-arrows-rotate px-1 hover:text-purple-600 cursor-pointer"}
     ></i>
   </div>
   {#if error}
@@ -54,15 +54,9 @@
       <tbody>
         {#each airports as airport}
           <tr class="text-gray-700">
-            <td class="border-b-2 p-4 dark:border-dark-5"
-              >{airport.city}</td
-            >
-            <td class="border-b-2 p-4 dark:border-dark-5"
-              >{airport.country}</td
-            >
-            <td class="border-b-2 p-4 dark:border-dark-5"
-              >{airport.iata}</td
-            >
+            <td class="border-b-2 p-4 dark:border-dark-5">{airport.city}</td>
+            <td class="border-b-2 p-4 dark:border-dark-5">{airport.country}</td>
+            <td class="border-b-2 p-4 dark:border-dark-5">{airport.iata}</td>
           </tr>
         {/each}
       </tbody>
