@@ -1,12 +1,21 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+/*                */
+/*     IMPORT     */
+/*                */
+
 use app::{
     connect_to_db, create_airplane, create_flight, create_passenger, delete_flight,
     fetch_airplanes, fetch_airports, fetch_flights, fetch_passengers, Airplane, AirplaneDetails,
     AirportDetails, Flight, FlightDetails, Passenger,
 };
 use chrono::{DateTime, Utc};
+
+
+/*                */
+/*      READ      */
+/*                */
 
 #[tauri::command]
 async fn fetch_airplanes_from_db() -> Result<String, String> {
@@ -44,6 +53,11 @@ async fn fetch_flights_from_db() -> Result<String, String> {
     let json_string = serde_json::to_string(&flights).map_err(|e| e.to_string())?;
     Ok(json_string)
 }
+
+
+/*                */
+/*     CREATE     */
+/*                */
 
 #[tauri::command]
 async fn insert_airplane_to_db(
@@ -117,6 +131,11 @@ async fn insert_flight_to_db(
     Ok(())
 }
 
+
+/*                */
+/*     DELETE     */
+/*                */
+
 #[tauri::command]
 async fn delete_flight_from_db(flight_id: i32) -> Result<(), String> {
     let pool = connect_to_db().await.map_err(|e| e.to_string())?;
@@ -126,6 +145,11 @@ async fn delete_flight_from_db(flight_id: i32) -> Result<(), String> {
         .map_err(|e| e.to_string())?;
     Ok(())
 }
+
+
+/*                */
+/*      MAIN      */
+/*                */
 
 fn main() {
     tauri::Builder::default()

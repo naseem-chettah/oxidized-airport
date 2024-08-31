@@ -1,4 +1,4 @@
-CREATE TABLE Airplane (
+CREATE TABLE IF NOT EXISTS Airplane (
   airplane_id SERIAL PRIMARY KEY,
   model VARCHAR(50) NOT NULL,
   manufacturer VARCHAR(50) NOT NULL,

@@ -1,4 +1,4 @@
-CREATE TABLE Booking (
+CREATE TABLE IF NOT EXISTS Booking (
   booking_id SERIAL PRIMARY KEY,
   flight_id INT NOT NULL REFERENCES Flight(flight_id),
   passenger_id INT NOT NULL REFERENCES Passenger(passenger_id),

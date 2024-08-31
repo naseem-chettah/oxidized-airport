@@ -1,8 +1,17 @@
+/*                */
+/*     IMPORT     */
+/*                */
+
 use chrono::{DateTime, Utc};
 use envconfig::Envconfig;
 use serde::Serialize;
 use sqlx::{PgPool, Row};
 use std::error::Error;
+
+
+/*                */
+/*    STRUCTS     */
+/*                */
 
 #[derive(Envconfig)]
 struct Config {
@@ -99,6 +108,11 @@ pub struct Booking {
     pub booking_status: String,
 }
 
+
+/*                */
+/*      CONN      */
+/*                */
+
 pub async fn connect_to_db() -> Result<PgPool, Box<dyn Error>> {
     let config = Config::init_from_env().expect("Failed to load configuration");
 
@@ -109,7 +123,11 @@ pub async fn connect_to_db() -> Result<PgPool, Box<dyn Error>> {
     Ok(pool)
 }
 
-// CREATE
+
+/*                */
+/*     CREATE     */
+/*                */
+
 pub async fn create_airplane(
     airplane: &Airplane,
     pool: &sqlx::PgPool,
@@ -232,7 +250,11 @@ pub async fn create_booking(booking: &Booking, pool: &sqlx::PgPool) -> Result<()
     Ok(())
 }
 
-// READ
+
+/*                */
+/*      READ      */
+/*                */
+
 pub async fn fetch_airplanes(pool: &sqlx::PgPool) -> Result<Vec<AirplaneDetails>, Box<dyn Error>> {
     let q = "SELECT airplane_id, model, manufacturer, capacity FROM airplane";
     let query = sqlx::query(q);
@@ -367,7 +389,11 @@ pub async fn fetch_assignments(
     Ok(assignments)
 }
 
-// Delete
+
+/*                */
+/*     DELETE     */
+/*                */
+
 pub async fn delete_flight(flight_id: i32, pool: &sqlx::PgPool) -> Result<(), Box<dyn Error>> {
     let query = "DELETE FROM Flight WHERE flight_id = $1";
 

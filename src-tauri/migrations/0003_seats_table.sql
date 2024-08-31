@@ -1,4 +1,4 @@
-CREATE TABLE Seat (
+CREATE TABLE IF NOT EXISTS Seat (
   seat_id SERIAL PRIMARY KEY,
   airplane_id INT NOT NULL REFERENCES Airplane(airplane_id),
   seat_number VARCHAR(10) NOT NULL,
