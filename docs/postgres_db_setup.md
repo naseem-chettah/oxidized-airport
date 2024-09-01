@@ -51,6 +51,16 @@ You can run these commands in a script or line by line, up to you
    CREATE DATABASE oxidized_airport;
    ```
 
+## Set the OADBCS environment variable
+
+On the client's system the OADBCS environment variable should be set to the connection string to the database, here is an example:
+
+```
+export OADBCS="postgres://postgres:admin@<ip.address>:5432/oxidized_airport"
+```
+
+On Linux you can add this line to the `/etc/environment` file and that should allow the app to connect to the database.
+
 ## Insert some data to test the app (optional)
 
 Execute the queries in [generate_some_data](https://github.com/naseem-chettah/oxidized-airport/blob/main/docs/generate_some_data.sql) to generate some data.
