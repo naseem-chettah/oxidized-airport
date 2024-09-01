@@ -10,6 +10,9 @@ CREATE TABLE IF NOT EXISTS Airplane (
 );
 
 CREATE INDEX idx_airplane_id ON Airplane(airplane_id);
+
+
+
 CREATE TABLE IF NOT EXISTS Airport (
   airport_id SERIAL PRIMARY KEY,
   city VARCHAR(50) NOT NULL,
@@ -18,6 +21,9 @@ CREATE TABLE IF NOT EXISTS Airport (
 );
 
 CREATE INDEX idx_airport_id ON Airport(airport_id);
+
+
+
 CREATE TABLE IF NOT EXISTS Seat (
   seat_id SERIAL PRIMARY KEY,
   airplane_id INT NOT NULL REFERENCES Airplane(airplane_id),
@@ -25,12 +31,18 @@ CREATE TABLE IF NOT EXISTS Seat (
   class VARCHAR(20) NOT NULL CHECK ( class IN ('economy', 'business', 'first class') ),
   UNIQUE (airplane_id, seat_number)
 );
+
+
+
 CREATE TABLE IF NOT EXISTS Passenger (
   passenger_id SERIAL PRIMARY KEY,
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
   passport_number VARCHAR(20) UNIQUE NOT NULL
 );
+
+
+
 CREATE TABLE IF NOT EXISTS Flight (
   flight_id SERIAL PRIMARY KEY,
   airplane_id INT NOT NULL REFERENCES Airplane(airplane_id),
@@ -43,6 +55,9 @@ CREATE TABLE IF NOT EXISTS Flight (
 );
 
 CREATE INDEX idx_flight_id ON Flight(flight_id);
+
+
+
 CREATE TABLE IF NOT EXISTS CrewMember (
   crew_member_id SERIAL PRIMARY KEY,
   first_name VARCHAR(50) NOT NULL,
@@ -51,12 +66,18 @@ CREATE TABLE IF NOT EXISTS CrewMember (
 );
 
 CREATE INDEX idx_crew_member_id ON CrewMember(crew_member_id);
+
+
+
 CREATE TABLE IF NOT EXISTS FlightCrewAssignment (
   assignment_id SERIAL PRIMARY KEY,
   flight_id INT NOT NULL REFERENCES Flight(flight_id),
   crew_member_id INT NOT NULL REFERENCES CrewMember(crew_member_id),
   UNIQUE (flight_id, crew_member_id)
 );
+
+
+
 CREATE TABLE IF NOT EXISTS Booking (
   booking_id SERIAL PRIMARY KEY,
   flight_id INT NOT NULL REFERENCES Flight(flight_id),
