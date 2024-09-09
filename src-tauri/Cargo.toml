@@ -12,16 +12,16 @@ rust-version = "1.60"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "1.5.3", features = [] }
+tauri-build = { version = "1.5.4", features = [] }
 
 [dependencies]
-serde_json = "1.0.127"
-serde = { version = "1.0.209", features = ["derive"] }
+serde_json = "1.0.128"
+serde = { version = "1.0.210", features = ["derive"] }
 tauri = { version = "1.7.2", features = [] }
 chrono = { version = "0.4.38", features = ["serde"] }
-sqlx = { version = "0.8.1", features = ["postgres", "runtime-tokio-rustls", "chrono"] }
+sqlx = { version = "0.8.2", features = ["postgres", "runtime-tokio-rustls", "chrono"] }
 tokio = { version = "1.40.0", features = ["full"] }
-envconfig = "0.10.0"
+envconfig = "0.11.0"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem and the built-in dev server is disabled.
