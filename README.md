@@ -1,43 +1,38 @@
-<p align="center">
-    <img src="https://raw.githubusercontent.com/naseem-chettah/oxidized-airport/main/src-tauri/icons/128x128.png" alt="Oxidized Airport" width=128 height=128>
-</p>
+# create-svelte
 
-# The Oxidized Airport
+Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
 
-a school project where I'll be using Tauri and ~~SurrealDB~~ PostgreSQL to create a nice application to book flights and airport stuff.
+## Creating a project
 
-## Installation
-
-**Important Note:** *Before installing and running ensure you have set up the backend, including the PostgreSQL database. Detailed instructions for setting up the database can be found in the [postgres_db_setup](https://github.com/naseem-chettah/oxidized-airport/blob/main/docs/postgres_db_setup.md).*
-
-- Debian, Ubuntu:
+If you're seeing this, you've probably already done this step. Congrats!
 
 ```bash
-wget "https://github.com/naseem-chettah/oxidized-airport/releases/download/v0.1.1-linux/oxidized-airport_0.1.1_amd64.deb"
+# create a new project in the current directory
+npm create svelte@latest
 
-sudo apt install ./oxidized-airport_0.1.1_amd64.deb
+# create a new project in my-app
+npm create svelte@latest my-app
 ```
 
-- Fedora, CentOS, Red Hat:
+## Developing
+
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```bash
-wget "https://github.com/naseem-chettah/oxidized-airport/releases/download/v0.1.1-linux/oxidized-airport-0.1.1-1.x86_64.rpm"
+npm run dev
 
-sudo rpm -i oxidized-airport-0.1.1-1.x86_64.rpm
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
 ```
 
-- Other:
+## Building
+
+To create a production version of your app:
 
 ```bash
-wget "https://github.com/naseem-chettah/oxidized-airport/releases/download/v0.1.1-linux/oxidized-airport_0.1.1_amd64.AppImage"
-
-chmod +x ./oxidized-airport_0.1.1_amd64.AppImage
-
-./oxidized-airport_0.1.1_amd64.AppImage
+npm run build
 ```
 
-- 🤮 Windows: [setup](https://github.com/naseem-chettah/oxidized-airport/releases/download/v0.1.1-windows/oxidized-airport_0.1.1_x64-setup.exe)
+You can preview the production build with `npm run preview`.
 
-## License
-
-Al-Kindi 2024 is released under the GPL-3.0 License. For more details, see the [LICENSE](https://github.com/naseem-chettah/Al-Kindi/blob/2024/LICENSE) file.
+> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
