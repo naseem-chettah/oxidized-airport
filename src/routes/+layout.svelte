@@ -1,6 +1,4 @@
-<script>
-  import "@fortawesome/fontawesome-free/css/all.css";
-  import "../app.css";
-</script>
+<script>import "@fortawesome/fontawesome-free/css/all.css";
+import "../app.css";</script>
 
-<slot />
+<slot></slot>
