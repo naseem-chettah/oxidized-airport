@@ -58,6 +58,8 @@
         "fullscreen": false,
         "resizable": true,
         "title": "Oxidized Airport",
+        "width": 1300,
+        "height": 650,
         "minWidth": 1200,
         "minHeight": 640
       }
