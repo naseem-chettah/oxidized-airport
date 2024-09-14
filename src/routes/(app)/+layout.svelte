@@ -1,6 +1,6 @@
 <script>
   import "@fortawesome/fontawesome-free/css/all.css";
-  import "../app.css";
+  import "../../app.css";
 
   import Header from "@/share/Header.svelte";
   import Footer from "@/share/Footer.svelte";
