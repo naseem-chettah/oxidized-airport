@@ -396,3 +396,10 @@ pub async fn delete_flight(flight_id: i32, pool: &sqlx::PgPool) -> Result<(), Bo
 
     Ok(())
 }
+
+/*                */
+/*    TESTING     */
+/*                */
+
+pub mod db_crud;
+pub mod tests;
